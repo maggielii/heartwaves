@@ -16,7 +16,7 @@ struct StepsChartView: View {
                 HStack {
                     Image(systemName: "figure.walk")
                         .font(.system(size: 32, weight: .semibold))
-                        .foregroundColor(.blue)
+                        .foregroundColor(.pink)
                     
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Steps")
@@ -43,11 +43,11 @@ struct StepsChartView: View {
                     }) {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.blue)
+                            .foregroundColor(.pink)
                             .frame(width: 44, height: 44)
                             .background(
                                 Circle()
-                                    .fill(Color.blue.opacity(0.1))
+                                    .fill(Color.pink.opacity(0.1))
                             )
                     }
                     
@@ -67,11 +67,11 @@ struct StepsChartView: View {
                     }) {
                         Image(systemName: "chevron.right")
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(weeksBack > 0 ? .blue : .gray.opacity(0.3))
+                            .foregroundColor(weeksBack > 0 ? .pink : .gray.opacity(0.3))
                             .frame(width: 44, height: 44)
                             .background(
                                 Circle()
-                                    .fill(weeksBack > 0 ? Color.blue.opacity(0.1) : Color.gray.opacity(0.05))
+                                    .fill(weeksBack > 0 ? Color.pink.opacity(0.1) : Color.gray.opacity(0.05))
                             )
                     }
                     .disabled(weeksBack == 0)
@@ -82,7 +82,7 @@ struct StepsChartView: View {
                 VStack(spacing: 4) {
                     Text("\(totalSteps)")
                         .font(.system(size: 48, weight: .bold))
-                        .foregroundColor(.blue)
+                        .foregroundColor(.pink)
                         .contentTransition(.numericText())
                         .animation(.easeInOut(duration: 0.3), value: totalSteps)
                     Text("total steps")
@@ -104,7 +104,7 @@ struct StepsChartView: View {
                             x: .value("Day", point.date, unit: .day),
                             y: .value("Steps", point.value)
                         )
-                        .foregroundStyle(.blue)
+                        .foregroundStyle(.pink)
                     }
                     .frame(height: 220)
                     .padding(.horizontal)
@@ -121,12 +121,12 @@ struct StepsChartView: View {
                         Text("Refresh")
                             .font(.system(size: 16, weight: .semibold))
                     }
-                    .foregroundColor(.blue)
+                    .foregroundColor(.pink)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 24)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.blue.opacity(0.1))
+                            .fill(Color.pink.opacity(0.1))
                     )
                 }
                 .padding(.bottom)

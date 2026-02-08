@@ -10,7 +10,10 @@ struct RestingHRChartView: View {
     @State private var avgBPM: Double = 0
     @State private var weeksBack: Int = 0
 
+    private let accent = Color(red: 1, green: 0, blue: 0.1)
     var body: some View {
+        
+        
         VStack(spacing: 20) {
             VStack(spacing: 16) {
 
@@ -18,7 +21,7 @@ struct RestingHRChartView: View {
                 HStack {
                     Image(systemName: "heart.fill")
                         .font(.system(size: 32, weight: .semibold))
-                        .foregroundColor(.red)
+                        .foregroundColor(accent)
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Resting Heart Rate")
@@ -47,10 +50,10 @@ struct RestingHRChartView: View {
                     } label: {
                         Image(systemName: "chevron.left")
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.red)
+                            .foregroundColor(accent)
                             .frame(width: 44, height: 44)
                             .background(
-                                Circle().fill(Color.red.opacity(0.1))
+                                Circle().fill(accent.opacity(0.1))
                             )
                     }
 
@@ -70,10 +73,10 @@ struct RestingHRChartView: View {
                     } label: {
                         Image(systemName: "chevron.right")
                             .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(weeksBack > 0 ? .red : .gray.opacity(0.3))
+                            .foregroundColor(weeksBack > 0 ? accent : .gray.opacity(0.3))
                             .frame(width: 44, height: 44)
                             .background(
-                                Circle().fill(weeksBack > 0 ? Color.red.opacity(0.1) : Color.gray.opacity(0.05))
+                                Circle().fill(weeksBack > 0 ? accent.opacity(0.1) : Color.gray.opacity(0.05))
                             )
                     }
                     .disabled(weeksBack == 0)
@@ -84,7 +87,7 @@ struct RestingHRChartView: View {
                 VStack(spacing: 4) {
                     Text(avgBPMText)
                         .font(.system(size: 48, weight: .bold))
-                        .foregroundColor(.red)
+                        .foregroundColor(accent)
                         .contentTransition(.numericText())
                         .animation(.easeInOut(duration: 0.3), value: avgBPM)
 
@@ -109,7 +112,7 @@ struct RestingHRChartView: View {
                                 x: .value("Day", point.date, unit: .day),
                                 y: .value("BPM", point.value)
                             )
-                            .foregroundStyle(.red.opacity(0.12))
+                            .foregroundStyle(accent.opacity(0.12))
                             .interpolationMethod(.catmullRom)
                         }
 
@@ -119,7 +122,7 @@ struct RestingHRChartView: View {
                                 x: .value("Day", point.date, unit: .day),
                                 y: .value("BPM", point.value)
                             )
-                            .foregroundStyle(.red)
+                            .foregroundStyle(accent)
                             .lineStyle(StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round))
                             .interpolationMethod(.catmullRom)
                         }
@@ -130,7 +133,7 @@ struct RestingHRChartView: View {
                                 x: .value("Day", point.date, unit: .day),
                                 y: .value("BPM", point.value)
                             )
-                            .foregroundStyle(.red)
+                            .foregroundStyle(accent)
                             .symbolSize(30)
                         }
                     }
@@ -151,12 +154,12 @@ struct RestingHRChartView: View {
                         Text("Refresh")
                             .font(.system(size: 16, weight: .semibold))
                     }
-                    .foregroundColor(.red)
+                    .foregroundColor(accent)
                     .padding(.vertical, 12)
                     .padding(.horizontal, 24)
                     .background(
                         RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.red.opacity(0.1))
+                            .fill(accent.opacity(0.1))
                     )
                 }
                 .padding(.bottom)

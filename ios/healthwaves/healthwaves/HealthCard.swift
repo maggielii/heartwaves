@@ -39,7 +39,7 @@ struct HealthCard: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 16)
-                .fill(Color(.blue))
+                .fill(Color(.systemPink))
                 .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 2)
         )
     }

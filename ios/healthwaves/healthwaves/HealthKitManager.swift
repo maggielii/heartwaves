@@ -14,9 +14,11 @@ final class HealthKitManager {
             let distance = HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning),
             let activeenergy = HKObjectType.quantityType(forIdentifier: .activeEnergyBurned),
             let heartrate = HKObjectType.quantityType(forIdentifier: .heartRate),
+            let rheartrate = HKObjectType.quantityType(forIdentifier: .restingHeartRate),
             let sleepAnalysis = HKObjectType.categoryType(forIdentifier: .sleepAnalysis),
             let envAudio = HKObjectType.quantityType(forIdentifier: .environmentalAudioExposure),
-            let headphoneAudio = HKObjectType.quantityType(forIdentifier: .headphoneAudioExposure)
+            let headphoneAudio = HKObjectType.quantityType(forIdentifier: .headphoneAudioExposure),
+            let exerciseType = HKObjectType.quantityType(forIdentifier: .appleExerciseTime)
 
         else {
             completion(false, "StepCount type not available")
@@ -25,7 +27,7 @@ final class HealthKitManager {
     
         
 
-        store.requestAuthorization(toShare: [], read: [steps, distance, activeenergy, heartrate, sleepAnalysis, envAudio, headphoneAudio]) { success, error in
+        store.requestAuthorization(toShare: [], read: [steps, distance, activeenergy, heartrate, rheartrate, sleepAnalysis, envAudio, headphoneAudio, exerciseType]) { success, error in
             DispatchQueue.main.async {
                 completion(success, error?.localizedDescription ?? "OK")
             }
@@ -187,36 +189,59 @@ final class HealthKitManager {
             completion([], "Sleep type not available")
             return
         }
-        
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
-        
-        let query = HKSampleQuery(sampleType: sleepType,
-                                  predicate: predicate,
-                                  limit: HKObjectQueryNoLimit,
-                                  sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)]) { _, samples, error in
-            
-            guard let samples = samples as? [HKCategorySample] else {
+
+        // Widen the range so overnight sleep that starts before startDate is still included
+        let cal = Calendar.current
+        let widenedStart = cal.date(byAdding: .day, value: -1, to: startDate) ?? startDate
+        let widenedEnd   = cal.date(byAdding: .day, value:  1, to: endDate) ?? endDate
+
+       
+        let predicate = HKQuery.predicateForSamples(withStart: widenedStart, end: widenedEnd, options: [])
+
+        let query = HKSampleQuery(
+            sampleType: sleepType,
+            predicate: predicate,
+            limit: HKObjectQueryNoLimit,
+            sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: true)]
+        ) { _, samples, error in
+
+            if let error = error {
                 DispatchQueue.main.async {
-                    completion([], error?.localizedDescription)
+                    completion([], error.localizedDescription)
                 }
                 return
             }
-            
-            let sleepData = samples.map { sample in
-                SleepDataPoint(
+
+            let catSamples = (samples as? [HKCategorySample]) ?? []
+            for s in catSamples {
+                let dt = s.endDate.timeIntervalSince(s.startDate)
+                print("sleep:", s.startDate, "->", s.endDate, "seconds:", dt, "raw:", s.value)
+            }
+
+
+    
+            print("HK sleep samples fetched:", catSamples.count)
+            if let first = catSamples.first {
+                print("First sample:", first.startDate, "->", first.endDate, "raw:", first.value)
+            }
+
+            let sleepData: [SleepDataPoint] = catSamples.compactMap { sample in
+                guard let v = HKCategoryValueSleepAnalysis(rawValue: sample.value) else { return nil }
+                return SleepDataPoint(
                     startDate: sample.startDate,
                     endDate: sample.endDate,
-                    value: HKCategoryValueSleepAnalysis(rawValue: sample.value) ?? .asleepUnspecified
+                    value: v
                 )
             }
-            
+
             DispatchQueue.main.async {
                 completion(sleepData, nil)
             }
         }
-        
+
         store.execute(query)
     }
+
     
     func fillMissingDays(points: [HealthDataPoint], startDate: Date, endDate: Date) -> [HealthDataPoint] {
         let cal = Calendar.current

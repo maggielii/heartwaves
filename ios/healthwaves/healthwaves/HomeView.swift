@@ -16,73 +16,86 @@ struct HomeView: View {
     @State private var distanceText = "--"
     @State private var energyText = "--"
     @State private var heartRateText = "--"
+    @StateObject private var insightsVM = InsightsViewModel(apiKey: Secrets.geminiKey)
+    @State private var showInsights = false
     
     var body: some View {
+        
         ScrollView(.vertical, showsIndicators: false) {
-            VStack(spacing: 16) {
-                Text("Today's Summary")
-                    .font(.system(size: 35, weight: .bold))
-                    .foregroundColor(.primary)
+      
                 
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack {
-                        HealthCard(
-                            icon: "figure.walk",
-                            title: "Steps",
-                            value: stepsText,
-                            unit: "",
-                            color: .blue
-                        )
-                        HealthCard(
-                            icon: "figure.walk",
-                            title: "Distance",
-                            value: distanceText,
-                            unit: "km",
-                            color: .blue
-                        )
-                        HealthCard(
-                            icon: "figure.walk",
-                            title: "Energy",
-                            value: energyText,
-                            unit: "kcal",
-                            color: .blue
-                        )
-                        HealthCard(
-                            icon: "waveform.path.ecg",
-                            title: "Heart Rate",
-                            value: heartRateText,
-                            unit: "bpm",
-                            color: .blue
-                        )
+                VStack(spacing: 16) {
+                    Text("Today's Summary")
+                        .font(.system(size: 35, weight: .bold))
+                        .foregroundColor(.primary)
+                    
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            HealthCard(
+                                icon: "figure.walk",
+                                title: "Steps",
+                                value: stepsText,
+                                unit: "",
+                                color: .blue
+                            )
+                            HealthCard(
+                                icon: "figure.walk",
+                                title: "Distance",
+                                value: distanceText,
+                                unit: "km",
+                                color: .blue
+                            )
+                            HealthCard(
+                                icon: "figure.walk",
+                                title: "Energy",
+                                value: energyText,
+                                unit: "kcal",
+                                color: .blue
+                            )
+                            HealthCard(
+                                icon: "waveform.path.ecg",
+                                title: "Heart Rate",
+                                value: heartRateText,
+                                unit: "bpm",
+                                color: .blue
+                            )
+                        }
+                        
+                    }
+                    Button("Show Insights") {
+                        withAnimation {
+                            showInsights = true
+                        }
                     }
                     
+                    // Overlay card on top
+                    InsightsOverlayCard(vm: insightsVM, isPresented: $showInsights)
+                  
+                    StepsChartView()
+             
+                    RestingHRChartView()
+                    ExerciseMinutesChartView()
+                    SleepTimelineView()
+                    //HeartRateChartView()
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                 }
-                StepsChartView()
-                RestingHRChartView()
-                SleepTimelineView()
-                ExerciseMinutesChartView()
-                EnergyHeatmapView()
-                HeartRateChartView()
-                InsightsCardView()
-
+                .padding()
+                .onAppear( perform: {loadSteps(); loadDistance(); loadActiveEnergy(); loadHeartRate()} )
                 
-                
-                
-                
-                
-                
-                
-                
-                Button("Refresh Steps") {
-                    loadSteps()
-                    loadDistance()
-                    loadActiveEnergy()
-                    loadHeartRate()
-                }
             }
-            .padding()
-            .onAppear( perform: {loadSteps(); loadDistance(); loadActiveEnergy(); loadHeartRate()} )
-        }
+            
+            
+        
+        
     }
         
         
