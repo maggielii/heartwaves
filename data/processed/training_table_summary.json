@@ -1,0 +1,48 @@
+{
+  "generated_on": "2026-02-08T05:22:34Z",
+  "source_file": "/Users/master_of_puppets/Desktop/HeartWaves/data/raw/physionet/cves/subjects.csv",
+  "source_url": "https://physionet.org/files/cves/1.0.0/subjects.csv",
+  "output_csv": "/Users/master_of_puppets/Desktop/HeartWaves/data/processed/training_table.csv",
+  "row_count": 172,
+  "counts": {
+    "status_target": {
+      "needs_followup": 67,
+      "normal": 105
+    },
+    "phenotype_hint_target": {
+      "ist_like": 1,
+      "normal": 105,
+      "oh_like": 45,
+      "vvs_like": 21
+    },
+    "phenotype_confidence_target": {
+      "high": 53,
+      "low": 118,
+      "medium": 1
+    }
+  },
+  "schema": [
+    "source_dataset",
+    "source_subject_id",
+    "source_group",
+    "age",
+    "resting_hr_mean",
+    "hrv_sdnn_mean",
+    "stand_minutes",
+    "active_minutes",
+    "sit_hr_mean",
+    "stand_hr_mean",
+    "delta_hr_stand_minus_sit",
+    "sit_sbp_mean",
+    "stand_sbp_mean",
+    "delta_sbp_stand_minus_sit",
+    "symptom_dizziness",
+    "symptom_syncope",
+    "symptom_oh",
+    "status_target",
+    "phenotype_hint_target",
+    "phenotype_confidence_target",
+    "label_quality",
+    "notes"
+  ]
+}

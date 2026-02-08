@@ -1,0 +1,10 @@
+conversion/
+data/
+publications/
+ANNOTATORS
+RECORDS
+SHA256SUMS.txt
+day1-day2-protocol.docx
+files-and-variables.xlsx
+full-study-protocol.docx
+subjects.csv

@@ -1,0 +1,7 @@
+Data/
+Data_Description/
+Papers/
+GE-71_Protocol.pdf
+LICENSE.txt
+RECORDS
+SHA256SUMS.txt

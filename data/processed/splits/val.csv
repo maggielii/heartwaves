@@ -1,0 +1,27 @@
+source_dataset,source_subject_id,source_group,age,resting_hr_mean,hrv_sdnn_mean,stand_minutes,active_minutes,sit_hr_mean,stand_hr_mean,delta_hr_stand_minus_sit,sit_sbp_mean,stand_sbp_mean,delta_sbp_stand_minus_sit,symptom_dizziness,symptom_syncope,symptom_oh,status_target,phenotype_hint_target,phenotype_confidence_target,label_quality,notes
+physionet_cves,S0238,CONTROL,70.0,,,,,,,,,,,"","","",normal,normal,high,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0295,STROKE,54.0,65.71090722,0.0934065,,,71.29739772,78.59985222,7.302,131.7309422,132.9878797,1.257,NO,NO,NO,normal,normal,low,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0248,STROKE,80.0,69.76553079,0.0825489,,,75.08064524,82.41275653,7.332,154.2135924,168.5658373,14.352,NO,NO,NO,normal,normal,low,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0383,STROKE,67.0,,,,,,,,,,,NO,NO,NO,normal,normal,low,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0293,STROKE,71.0,,,,,,,,,,,NO,NO,NO,normal,normal,low,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0348,STROKE,72.0,70.50487302,0.0563968,,,76.70499107,80.00536544,3.3,108.447433,102.8801116,-5.567,YES,NO,NO,normal,normal,low,proxy,No strong objective subtype signal; dizziness symptom present.
+physionet_cves,S0222,CONTROL,70.0,,,,,,,,,,,YES,NO,NO,normal,normal,high,proxy,No strong objective subtype signal; dizziness symptom present.
+physionet_cves,S0404,STROKE,61.0,,,,,,,,,,,NO,NO,NO,normal,normal,low,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0298,CONTROL,59.0,,,,,,,,,,,NO,NO,NO,normal,normal,high,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0321,STROKE,54.0,71.6218689,0.132205,,,74.88990956,83.83371908,8.944,110.3269851,116.4187487,6.092,NO,NO,NO,normal,normal,low,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0377,STROKE,51.0,,,,,,,,,,,YES,NO,NO,normal,normal,low,proxy,No strong objective subtype signal; dizziness symptom present.
+physionet_cves,S0227,CONTROL,66.0,74.52144,0.0908299,,,83.20364298,89.38232509,6.179,141.0412333,135.8234422,-5.218,NO,NO,NO,normal,normal,high,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0216,CONTROL,80.0,,,,,,,,,,,NO,NO,NO,normal,normal,high,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0394,STROKE,59.0,,,,,,,,,,,YES,NO,NO,normal,normal,low,proxy,No strong objective subtype signal; dizziness symptom present.
+physionet_cves,S0030,CONTROL,64.0,88.9129662461,0.074341,,,80.24825019,69.63383184,-10.614,138.4898543,137.7883668,-0.701,NO,NO,NO,normal,normal,high,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0266,STROKE,75.0,,,,,,,,,,,"","","",normal,normal,low,proxy,No strong dysautonomia-like subtype signal from available fields.
+physionet_cves,S0184,CONTROL,68.0,54.2440724786,0.137394,,,69.49414411,80.09176407,10.598,122.5384944,122.4771377,-0.061,YES,NO,YES,needs_followup,oh_like,low,proxy,OH symptom or orthostatic SBP drop pattern.
+physionet_cves,S0370,STROKE,67.0,,,,,,,,,,,YES,NO,YES,needs_followup,oh_like,low,proxy,OH symptom or orthostatic SBP drop pattern.
+physionet_cves,S0177,CONTROL,68.0,,,,,,,,,,,NO,NO,YES,needs_followup,oh_like,low,proxy,OH symptom or orthostatic SBP drop pattern.
+physionet_cves,S0388,STROKE,61.0,68.78064544,,,,78.43326356,82.16077668,3.728,149.2548802,145.5253516,-3.73,YES,NO,YES,needs_followup,oh_like,low,proxy,OH symptom or orthostatic SBP drop pattern.
+physionet_cves,S0172,CONTROL,71.0,62.4730893162,0.13943,,,68.1884255,75.2860178,7.098,128.7563943,133.3103251,4.554,NO,NO,YES,needs_followup,oh_like,low,proxy,OH symptom or orthostatic SBP drop pattern.
+physionet_cves,S0166,CONTROL,76.0,61.65667862,0.129872,,,70.96267669,78.04166222,7.079,127.5210516,123.2784246,-4.243,NO,NO,YES,needs_followup,oh_like,low,proxy,OH symptom or orthostatic SBP drop pattern.
+physionet_cves,S0229,CONTROL,71.0,,,,,,,,,,,NO,YES,YES,needs_followup,oh_like,low,proxy,OH symptom or orthostatic SBP drop pattern.
+physionet_cves,S0387,STROKE,80.0,,,,,,,,,,,YES,YES,NO,needs_followup,vvs_like,low,proxy,Syncope symptom history suggests vasovagal-like pattern.
+physionet_cves,S0218,CONTROL,70.0,60.8981268133,0.101245,,,84.15594998,112.1737734,28.018,133.9760545,146.1314515,12.155,YES,YES,NO,needs_followup,vvs_like,low,proxy,Syncope symptom history suggests vasovagal-like pattern.
+physionet_cves,S0309,CONTROL,58.0,,,,,,,,,,,NO,YES,NO,needs_followup,vvs_like,low,proxy,Syncope symptom history suggests vasovagal-like pattern.

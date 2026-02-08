@@ -1,0 +1,103 @@
+{
+  "created_at": "2026-02-08T05:52:27Z",
+  "train": {
+    "binary": {
+      "confusion": {
+        "tp": 22,
+        "fp": 15,
+        "tn": 59,
+        "fn": 25
+      },
+      "precision_needs_followup": 0.5945945945945946,
+      "recall_needs_followup": 0.46808510638297873,
+      "f1_needs_followup": 0.5238095238095238,
+      "accuracy": 0.6694214876033058
+    },
+    "phenotype": {
+      "exact_accuracy": 0.628099173553719,
+      "support_by_class": {
+        "ist_like": 1,
+        "normal": 74,
+        "oh_like": 31,
+        "vvs_like": 15
+      },
+      "predicted_by_class": {
+        "normal": 84,
+        "oh_like": 37
+      },
+      "recall_by_class": {
+        "ist_like": 0.0,
+        "normal": 0.7972972972972973,
+        "oh_like": 0.5483870967741935,
+        "vvs_like": 0.0
+      }
+    }
+  },
+  "val": {
+    "binary": {
+      "confusion": {
+        "tp": 4,
+        "fp": 3,
+        "tn": 13,
+        "fn": 6
+      },
+      "precision_needs_followup": 0.5714285714285714,
+      "recall_needs_followup": 0.4,
+      "f1_needs_followup": 0.47058823529411764,
+      "accuracy": 0.6538461538461539
+    },
+    "phenotype": {
+      "exact_accuracy": 0.6153846153846154,
+      "support_by_class": {
+        "normal": 16,
+        "oh_like": 7,
+        "vvs_like": 3
+      },
+      "predicted_by_class": {
+        "normal": 19,
+        "oh_like": 7
+      },
+      "recall_by_class": {
+        "normal": 0.8125,
+        "oh_like": 0.42857142857142855,
+        "vvs_like": 0.0
+      }
+    }
+  },
+  "test": {
+    "binary": {
+      "confusion": {
+        "tp": 1,
+        "fp": 1,
+        "tn": 14,
+        "fn": 9
+      },
+      "precision_needs_followup": 0.5,
+      "recall_needs_followup": 0.1,
+      "f1_needs_followup": 0.16666666666666669,
+      "accuracy": 0.6
+    },
+    "phenotype": {
+      "exact_accuracy": 0.6,
+      "support_by_class": {
+        "normal": 15,
+        "oh_like": 7,
+        "vvs_like": 3
+      },
+      "predicted_by_class": {
+        "normal": 23,
+        "oh_like": 2
+      },
+      "recall_by_class": {
+        "normal": 0.9333333333333333,
+        "oh_like": 0.14285714285714285,
+        "vvs_like": 0.0
+      }
+    }
+  },
+  "row_counts": {
+    "train": 121,
+    "val": 26,
+    "test": 25
+  }
+}

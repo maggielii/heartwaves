@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HeartWaves Report</title>
+    <style>
+      :root{--ink:#1e1b16;--muted:#5b544b;--line:#e6ded1;--ok:#1f5c52;--bad:#b11f3a}
+      body{font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;color:var(--ink);margin:28px}
+      h1{margin:0 0 6px}
+      .meta{color:var(--muted);font-size:12px;margin-bottom:18px}
+      .box{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+      .pill{display:inline-block;font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line)}
+      .pill.ok{color:var(--ok);border-color:rgba(31,92,82,.35);background:rgba(31,92,82,.08)}
+      .pill.bad{color:var(--bad);border-color:rgba(177,31,58,.35);background:rgba(177,31,58,.08)}
+      .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+      .small{font-size:12px;color:var(--muted)}
+      @media print {.noprint{display:none}}
+    </style>
+  </head>
+  <body>
+    <div class="noprint box">
+      <strong>PDF:</strong> Use your browser Print dialog and choose “Save as PDF”.
+    </div>
+
+    <h1>HeartWaves Summary</h1>
+    <div class="meta" id="meta"></div>
+
+    <div class="box">
+      <div>Status: <span id="status" class="pill">...</span></div>
+      <div class="small">Non-diagnostic screening. Intended to support discussion with a clinician.</div>
+    </div>
+
+    <div class="box">
+      <div><strong>Pattern hint:</strong> <span id="phenotypeHint">-</span></div>
+      <div><strong>Confidence:</strong> <span id="phenotypeConfidence">-</span></div>
+      <div class="small" id="phenotypeReason"></div>
+      <div class="small" id="orthostaticInput"></div>
+      <div class="small" id="clusterModelLine"></div>
+      <div class="small" id="surveyAssessment"></div>
+    </div>
+
+    <div class="grid">
+      <div class="box">
+        <strong>Signals</strong>
+        <ul id="signals"></ul>
+      </div>
+      <div class="box">
+        <strong>Safety notes</strong>
+        <ul id="safety"></ul>
+      </div>
+    </div>
+
+    <div class="box">
+      <strong>Doctor summary bullets</strong>
+      <ul id="doctor"></ul>
+      <div class="small">These bullets are supportive context, not a diagnosis.</div>
+    </div>
+
+    <div class="box">
+      <strong>Symptom answers (self-reported)</strong>
+      <ul id="symptoms"></ul>
+      <div class="small">Answers are captured in-session and intended to help clinician discussion.</div>
+    </div>
+
+    <div class="box">
+      <strong>What to discuss with your clinician</strong>
+      <ul id="discuss"></ul>
+    </div>
+
+    <script>
+      const REPORT = __REPORT_DATA__;
+      const imp = REPORT.imported;
+      const scr = REPORT.screening;
+
+      document.getElementById("meta").textContent =
+        `Window: ${imp.start_date} to ${imp.end_date} (last ${imp.window_days} days). Records kept: ${imp.record_counts.kept}.`;
+
+      const st = document.getElementById("status");
+      st.textContent = scr.status.toUpperCase();
+      st.classList.add(scr.status === "normal" ? "ok" : "bad");
+
+      function formatHint(hint) {
+        switch (String(hint || "")) {
+          case "normal": return "Normal pattern";
+          case "pots_like": return "POTS-like pattern";
+          case "ist_like": return "IST-like pattern";
+          case "oh_like": return "OH-like pattern";
+          case "vvs_like": return "VVS-like pattern";
+          case "unspecified_autonomic": return "Unspecified autonomic pattern";
+          default: return "Unspecified";
+        }
+      }
+
+      function formatConfidence(conf) {
+        switch (String(conf || "")) {
+          case "high": return "High";
+          case "medium": return "Medium";
+          case "low": return "Low";
+          default: return "Unknown";
+        }
+      }
+
+      document.getElementById("phenotypeHint").textContent = formatHint(scr.phenotype_hint);
+      document.getElementById("phenotypeConfidence").textContent = formatConfidence(scr.phenotype_confidence);
+      document.getElementById("phenotypeReason").textContent = scr.phenotype_reason || "";
+      const ortho = imp.orthostatic_input || {};
+      if (Object.keys(ortho).length) {
+        const parts = [];
+        if (ortho.sit_hr_mean != null) parts.push(`sit HR ${Number(ortho.sit_hr_mean).toFixed(1)}`);
+        if (ortho.stand_hr_mean != null) parts.push(`stand HR ${Number(ortho.stand_hr_mean).toFixed(1)}`);
+        if (ortho.sit_sbp_mean != null) parts.push(`sit SBP ${Number(ortho.sit_sbp_mean).toFixed(1)}`);
+        if (ortho.stand_sbp_mean != null) parts.push(`stand SBP ${Number(ortho.stand_sbp_mean).toFixed(1)}`);
+        document.getElementById("orthostaticInput").textContent = `Orthostatic quick-check input: ${parts.join(", ")}.`;
+      } else {
+        document.getElementById("orthostaticInput").textContent = "";
+      }
+      const model = scr.clustering_model || scr.model;
+      if (model && !model.error) {
+        const coverage = Number.isFinite(Number(model.feature_coverage))
+          ? `${(Number(model.feature_coverage) * 100).toFixed(0)}%`
+          : "-";
+        document.getElementById("clusterModelLine").textContent =
+          `Cluster model: ${String(model.status || "").toUpperCase()} | ${formatHint(model.phenotype_hint)} | ${formatConfidence(model.confidence)} confidence | coverage ${coverage}.`;
+      } else if (model && model.error) {
+        document.getElementById("clusterModelLine").textContent = `Cluster model unavailable: ${model.error}`;
+      } else {
+        document.getElementById("clusterModelLine").textContent = "";
+      }
+      document.getElementById("surveyAssessment").textContent =
+        (scr.survey_assessment && scr.survey_assessment.summary)
+          ? scr.survey_assessment.summary
+          : "";
+
+      function addList(id, items) {
+        const ul = document.getElementById(id);
+        ul.innerHTML = "";
+        for (const it of items) {
+          const li = document.createElement("li");
+          li.textContent = it.detail || it;
+          ul.appendChild(li);
+        }
+      }
+
+      addList("signals", (scr.signals && scr.signals.length) ? scr.signals : ["No strong signals detected by demo logic."]);
+      addList("safety", scr.safety_notes || []);
+      addList("doctor", (scr.llm && scr.llm.doctor_summary_bullets) ? scr.llm.doctor_summary_bullets : ["(Not provided)"]);
+      addList(
+        "symptoms",
+        (REPORT.symptoms && REPORT.symptoms.answers && REPORT.symptoms.answers.length)
+          ? REPORT.symptoms.answers.map((a) => `${a.prompt}: ${a.answer}`)
+          : ["No symptom answers were saved for this session."]
+      );
+
+      const discuss = [];
+      if (scr.status !== "normal") {
+        if (scr.phenotype_hint === "pots_like") {
+          discuss.push("Orthostatic symptom timing (standing vs lying down) and episodes of rapid heart rate.");
+          discuss.push("Hydration/salt strategy and whether formal orthostatic vitals are appropriate.");
+        } else if (scr.phenotype_hint === "ist_like") {
+          discuss.push("Persistent elevated heart rate at rest and factors that may worsen it.");
+          discuss.push("Whether rhythm evaluation or medication review is appropriate.");
+        } else if (scr.phenotype_hint === "oh_like" || scr.phenotype_hint === "vvs_like") {
+          discuss.push("Near-fainting/fainting symptoms, triggers, and recovery pattern.");
+          discuss.push("Orthostatic blood pressure measurements for better confidence.");
+        } else {
+          discuss.push("Orthostatic symptoms (dizziness, palpitations, near-fainting) and timing relative to standing.");
+        }
+        discuss.push("Recent illness, medication changes, sleep, stress, and activity context.");
+      } else {
+        discuss.push("Any symptoms not captured here and whether trends align with how you feel.");
+      }
+      addList("discuss", discuss);
+    </script>
+  </body>
+</html>

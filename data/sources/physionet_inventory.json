@@ -1,0 +1,114 @@
+{
+  "generated_on": "2026-02-08T04:58:16Z",
+  "datasets": [
+    {
+      "id": "autonomic-aging-cardiovascular",
+      "has_records": true,
+      "has_files_listing": true,
+      "records_count": 1121,
+      "extension_counts": {
+        "(none)": 1121
+      },
+      "sample_records": [
+        "0001",
+        "0002",
+        "0003",
+        "0004",
+        "0005"
+      ],
+      "files_count": 2245,
+      "file_extension_counts": {
+        "(none)": 1,
+        ".csv": 1,
+        ".dat": 1120,
+        ".hea": 1121,
+        ".txt": 2
+      },
+      "sample_files": [
+        "0001.dat",
+        "0001.hea",
+        "0002.dat",
+        "0002.hea",
+        "0003.dat"
+      ]
+    },
+    {
+      "id": "cardioresp-response-orthostat",
+      "has_records": false,
+      "has_files_listing": true,
+      "files_count": 24,
+      "file_extension_counts": {
+        ".csv": 20,
+        ".png": 1,
+        ".txt": 3
+      },
+      "sample_files": [
+        "LICENSE.txt",
+        "README.txt",
+        "SHA256SUMS.txt",
+        "channel_layout.png",
+        "subj01.csv"
+      ]
+    },
+    {
+      "id": "cerebral-vasoreg-diabetes",
+      "has_records": true,
+      "has_files_listing": true,
+      "records_count": 171,
+      "extension_counts": {
+        "(none)": 171
+      },
+      "sample_records": [
+        "Data/Labview/Converted/Head-up-tilt_Day1/s0030DA",
+        "Data/Labview/Converted/Head-up-tilt_Day1/s0044DA",
+        "Data/Labview/Converted/Head-up-tilt_Day1/s0058DA",
+        "Data/Labview/Converted/Head-up-tilt_Day1/s0059DA",
+        "Data/Labview/Converted/Head-up-tilt_Day1/s0064DA"
+      ],
+      "files_count": 7,
+      "file_extension_counts": {
+        "(none)": 4,
+        ".pdf": 1,
+        ".txt": 2
+      },
+      "sample_files": [
+        "Data/",
+        "Data_Description/",
+        "Papers/",
+        "GE-71_Protocol.pdf",
+        "LICENSE.txt"
+      ]
+    },
+    {
+      "id": "cves",
+      "has_records": true,
+      "has_files_listing": true,
+      "records_count": 614,
+      "extension_counts": {
+        "(none)": 614
+      },
+      "sample_records": [
+        "data/24h-electromyography/s0030-04051907",
+        "data/24h-electromyography/s0030-04051908",
+        "data/24h-electromyography/s0044-05062806",
+        "data/24h-electromyography/s0044-05062807",
+        "data/24h-electromyography/s0064-05081805"
+      ],
+      "files_count": 10,
+      "file_extension_counts": {
+        "(none)": 5,
+        ".csv": 1,
+        ".docx": 2,
+        ".txt": 1,
+        ".xlsx": 1
+      },
+      "sample_files": [
+        "conversion/",
+        "data/",
+        "publications/",
+        "ANNOTATORS",
+        "RECORDS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+7aea51989060c00fb7100aafaa96d3c2dee68e53fce8395db1476d91a7e81a89 day1-day2-protocol.docx
+c6d6ee40e2367c85c24acb80a136350d706a12a422d22818a93c8093334a7c8b files-and-variables.xlsx
+35a6454e712fccceeead38315eabcec40abdfc5d696cdd9d20fbf4073e142b8d conversion/convert-final.ipynb
