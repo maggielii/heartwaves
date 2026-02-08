@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HeartWaves Demo</title>
+    <link rel="stylesheet" href="/styles.css?v=2" />
+    <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script defer src="/app.js?v=2"></script>
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="hero">
+        <div class="hero__kicker">Non-diagnostic screening demo</div>
+        <h1 class="hero__title">HeartWaves</h1>
+        <p class="hero__sub">
+          Upload your Apple Health export ZIP. We summarize the last 30 days and flag patterns that may warrant clinical follow-up.
+        </p>
+        <div class="hero__disclaimer">
+          Not a diagnosis. Data stays local on this machine for the demo session.
+        </div>
+        <div id="serverStatus" class="status"></div>
+      </header>
+
+      <section class="card">
+        <h2>1) Import</h2>
+        <form id="uploadForm">
+          <label class="file">
+            <input type="file" id="zipFile" name="zip" accept=".zip,.xml" required />
+            <span>Choose Apple Health export ZIP or `export.xml`</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="useGemini" />
+            <span>Use Gemini (optional)</span>
+          </label>
+          <button class="btn" type="submit">Process last 30 days</button>
+        </form>
+        <div id="uploadStatus" class="status" aria-live="polite"></div>
+      </section>
+
+      <section id="results" class="card hidden">
+        <div class="results__top">
+          <h2>2) Results</h2>
+          <div class="pill" id="statusPill">...</div>
+        </div>
+
+        <div class="grid">
+          <div class="metric">
+            <div class="metric__label">Resting HR (bpm)</div>
+            <div class="metric__value" id="rhrValue">-</div>
+            <div class="metric__hint">Last 7-day mean</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">HRV SDNN (ms)</div>
+            <div class="metric__value" id="hrvValue">-</div>
+            <div class="metric__hint">Last 7-day mean</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">Stand minutes</div>
+            <div class="metric__value" id="standValue">-</div>
+            <div class="metric__hint">Last 7-day total</div>
+          </div>
+          <div class="metric">
+            <div class="metric__label">Active minutes</div>
+            <div class="metric__value" id="activeValue">-</div>
+            <div class="metric__hint">Last 7-day total</div>
+          </div>
+        </div>
+
+        <div class="charts">
+          <div class="chart">
+            <canvas id="rhrChart"></canvas>
+          </div>
+          <div class="chart">
+            <canvas id="hrvChart"></canvas>
+          </div>
+        </div>
+
+        <h3>Signals</h3>
+        <ul id="signals" class="list"></ul>
+
+        <h3>Questionnaire (demo)</h3>
+        <div id="questions" class="questions"></div>
+        <button id="saveSymptomsBtn" class="btn" type="button">Save symptoms to report</button>
+        <div id="symptomStatus" class="status" aria-live="polite"></div>
+
+        <div id="llmError" class="status"></div>
+
+        <div class="actions">
+          <a id="reportLink" class="btn btn--ghost" target="_blank" rel="noreferrer">Open doctor report</a>
+          <button id="resetBtn" class="btn btn--ghost" type="button">Reset</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

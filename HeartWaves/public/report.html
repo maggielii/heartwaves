@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HeartWaves Report</title>
+    <style>
+      :root{--ink:#1e1b16;--muted:#5b544b;--line:#e6ded1;--ok:#1f5c52;--bad:#b11f3a}
+      body{font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;color:var(--ink);margin:28px}
+      h1{margin:0 0 6px}
+      .meta{color:var(--muted);font-size:12px;margin-bottom:18px}
+      .box{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+      .pill{display:inline-block;font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid var(--line)}
+      .pill.ok{color:var(--ok);border-color:rgba(31,92,82,.35);background:rgba(31,92,82,.08)}
+      .pill.bad{color:var(--bad);border-color:rgba(177,31,58,.35);background:rgba(177,31,58,.08)}
+      .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+      .small{font-size:12px;color:var(--muted)}
+      @media print {.noprint{display:none}}
+    </style>
+  </head>
+  <body>
+    <div class="noprint box">
+      <strong>PDF:</strong> Use your browser Print dialog and choose “Save as PDF”.
+    </div>
+
+    <h1>HeartWaves Summary</h1>
+    <div class="meta" id="meta"></div>
+
+    <div class="box">
+      <div>Status: <span id="status" class="pill">...</span></div>
+      <div class="small">Non-diagnostic screening. Intended to support discussion with a clinician.</div>
+    </div>
+
+    <div class="grid">
+      <div class="box">
+        <strong>Signals</strong>
+        <ul id="signals"></ul>
+      </div>
+      <div class="box">
+        <strong>Safety notes</strong>
+        <ul id="safety"></ul>
+      </div>
+    </div>
+
+    <div class="box">
+      <strong>Doctor summary bullets</strong>
+      <ul id="doctor"></ul>
+      <div class="small">These bullets are supportive context, not a diagnosis.</div>
+    </div>
+
+    <div class="box">
+      <strong>Symptom answers (self-reported)</strong>
+      <ul id="symptoms"></ul>
+      <div class="small">Answers are captured in-session and intended to help clinician discussion.</div>
+    </div>
+
+    <div class="box">
+      <strong>What to discuss with your clinician</strong>
+      <ul id="discuss"></ul>
+    </div>
+
+    <script>
+      const REPORT = __REPORT_DATA__;
+      const imp = REPORT.imported;
+      const scr = REPORT.screening;
+
+      document.getElementById("meta").textContent =
+        `Window: ${imp.start_date} to ${imp.end_date} (last ${imp.window_days} days). Records kept: ${imp.record_counts.kept}.`;
+
+      const st = document.getElementById("status");
+      st.textContent = scr.status.toUpperCase();
+      st.classList.add(scr.status === "normal" ? "ok" : "bad");
+
+      function addList(id, items) {
+        const ul = document.getElementById(id);
+        ul.innerHTML = "";
+        for (const it of items) {
+          const li = document.createElement("li");
+          li.textContent = it.detail || it;
+          ul.appendChild(li);
+        }
+      }
+
+      addList("signals", (scr.signals && scr.signals.length) ? scr.signals : ["No strong signals detected by demo logic."]);
+      addList("safety", scr.safety_notes || []);
+      addList("doctor", (scr.llm && scr.llm.doctor_summary_bullets) ? scr.llm.doctor_summary_bullets : ["(Not provided)"]);
+      addList(
+        "symptoms",
+        (REPORT.symptoms && REPORT.symptoms.answers && REPORT.symptoms.answers.length)
+          ? REPORT.symptoms.answers.map((a) => `${a.prompt}: ${a.answer}`)
+          : ["No symptom answers were saved for this session."]
+      );
+
+      const discuss = [];
+      if (scr.status !== "normal") {
+        discuss.push("Orthostatic symptoms (dizziness, palpitations, near-fainting) and timing relative to standing.");
+        discuss.push("Hydration/salt intake, recent illness, medication changes, and sleep/stress changes.");
+        discuss.push("Whether orthostatic vitals or further evaluation is appropriate based on your symptoms.");
+      } else {
+        discuss.push("Any symptoms not captured here and whether trends align with how you feel.");
+      }
+      addList("discuss", discuss);
+    </script>
+  </body>
+</html>
